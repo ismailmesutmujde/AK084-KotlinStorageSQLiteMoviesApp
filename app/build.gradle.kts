@@ -7,6 +7,10 @@ android {
     namespace = "com.ismailmesutmujde.kotlinstoragesqlitemoviesapp"
     compileSdk = 34
 
+    buildFeatures {
+        viewBinding = true
+    }
+
     defaultConfig {
         applicationId = "com.ismailmesutmujde.kotlinstoragesqlitemoviesapp"
         minSdk = 24
