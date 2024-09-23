@@ -4,16 +4,19 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.ismailmesutmujde.kotlinstoragesqlitemoviesapp.adapter.MoviesRecyclerViewAdapter
+import com.ismailmesutmujde.kotlinstoragesqlitemoviesapp.dao.MoviesDao
+import com.ismailmesutmujde.kotlinstoragesqlitemoviesapp.database.DatabaseHelper
 import com.ismailmesutmujde.kotlinstoragesqlitemoviesapp.databinding.ActivityMoviesScreenBinding
 import com.ismailmesutmujde.kotlinstoragesqlitemoviesapp.model.Categories
-import com.ismailmesutmujde.kotlinstoragesqlitemoviesapp.model.Directors
 import com.ismailmesutmujde.kotlinstoragesqlitemoviesapp.model.Movies
 
 class MoviesScreenActivity : AppCompatActivity() {
 
     private lateinit var bindingMoviesScreen : ActivityMoviesScreenBinding
-    private lateinit var movieList:ArrayList<Movies>
+
+    private lateinit var moviesList:ArrayList<Movies>
     private lateinit var adapterMovies:MoviesRecyclerViewAdapter
+    private lateinit var dbh:DatabaseHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +32,7 @@ class MoviesScreenActivity : AppCompatActivity() {
         bindingMoviesScreen.recyclerViewMovies.setHasFixedSize(true)
         bindingMoviesScreen.recyclerViewMovies.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
 
+        /*
         movieList = ArrayList()
 
         val c1 = Categories(1,"Science Fiction")
@@ -48,8 +52,12 @@ class MoviesScreenActivity : AppCompatActivity() {
         movieList.add(m2)
         movieList.add(m3)
         movieList.add(m4)
+         */
 
-        adapterMovies = MoviesRecyclerViewAdapter(this, movieList)
+        dbh = DatabaseHelper(this)
+        moviesList = MoviesDao().allMoviesByCategoryId(dbh, category.category_id)
+
+        adapterMovies = MoviesRecyclerViewAdapter(this, moviesList)
         bindingMoviesScreen.recyclerViewMovies.adapter = adapterMovies
     }
 }
